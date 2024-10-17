@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const SIZE = 4;
+const SIZE = 4; // 4x4 보드 크기
 
 const getInitialBoard = () => {
   const board = Array(SIZE).fill().map(() => Array(SIZE).fill(0));
@@ -34,15 +34,16 @@ const move = (board, direction) => {
 
     while (i < newRow.length) {
       if (i < newRow.length - 1 && newRow[i] === newRow[i + 1]) {
-        resultRow.push(newRow[i] * 2);
-        moved = true;
-        i += 2;
+        resultRow.push(newRow[i] * 2); // 블록 합치기
+        moved = true; // 이동을 true로 설정
+        i += 2; // 다음 블록 건너뛰기
       } else {
-        resultRow.push(newRow[i]);
+        resultRow.push(newRow[i]); // 블록 유지
         i++;
       }
     }
 
+    // 사이즈를 유지하기 위해 0으로 채우기
     return [...resultRow, ...Array(SIZE - resultRow.length).fill(0)];
   };
 
@@ -76,11 +77,11 @@ const checkGameOver = (board) => {
   for (let i = 0; i < SIZE; i++) {
     for (let j = 0; j < SIZE; j++) {
       if (board[i][j] === 0 || (i < SIZE - 1 && board[i][j] === board[i + 1][j]) || (j < SIZE - 1 && board[i][j] === board[i][j + 1])) {
-        return false;
+        return false; // 빈 공간이나 유효한 이동이 있으면 게임 오버가 아님
       }
     }
   }
-  return true;
+  return true; // 게임 오버
 };
 
 function App() {
@@ -117,7 +118,7 @@ function App() {
       <div className="board">
         {board.map((row, i) =>
           row.map((tile, j) => (
-            <div key={`${i}-${j}`} className={`tile tile-${tile}`} style={{ transform: `translate(${(j * 100) + (j * 10)}px, ${(i * 100) + (i * 10)}px)` }}>
+            <div key={`${i}-${j}`} className={`tile tile-${tile}`}>
               {tile !== 0 ? tile : ''}
             </div>
           ))
