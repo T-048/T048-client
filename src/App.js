@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import GameOverModal from './GameOverModal'; 
 
-const SIZE = 4; // 4x4 보드 크기
+const SIZE = 4; 
 
 const getInitialBoard = () => {
   const board = Array(SIZE).fill().map(() => Array(SIZE).fill(0));
@@ -34,16 +35,15 @@ const move = (board, direction) => {
 
     while (i < newRow.length) {
       if (i < newRow.length - 1 && newRow[i] === newRow[i + 1]) {
-        resultRow.push(newRow[i] * 2); // 블록 합치기
-        moved = true; // 이동을 true로 설정
-        i += 2; // 다음 블록 건너뛰기
+        resultRow.push(newRow[i] * 2); 
+        moved = true; 
+        i += 2; 
       } else {
-        resultRow.push(newRow[i]); // 블록 유지
+        resultRow.push(newRow[i]); 
         i++;
       }
     }
 
-    // 사이즈를 유지하기 위해 0으로 채우기
     return [...resultRow, ...Array(SIZE - resultRow.length).fill(0)];
   };
 
@@ -77,29 +77,39 @@ const checkGameOver = (board) => {
   for (let i = 0; i < SIZE; i++) {
     for (let j = 0; j < SIZE; j++) {
       if (board[i][j] === 0 || (i < SIZE - 1 && board[i][j] === board[i + 1][j]) || (j < SIZE - 1 && board[i][j] === board[i][j + 1])) {
-        return false; // 빈 공간이나 유효한 이동이 있으면 게임 오버가 아님
+        return false; 
       }
     }
   }
-  return true; // 게임 오버
+  return true; 
 };
 
-// 최고 점수 쿠키에서 불러오기
 const getHighScore = () => {
   const match = document.cookie.match(/highScore=(\d+)/);
   return match ? parseInt(match[1], 10) : 0;
 };
 
-// 최고 점수 쿠키에 저장하기
 const setHighScore = (score) => {
-  document.cookie = `highScore=${score}; path=/; max-age=31536000`; // 1년 동안 유효
+  document.cookie = `highScore=${score}; path=/; max-age=31536000`; 
+};
+
+const GameOver = ({ onRestart }) => {
+  return (
+    <div className="game-over-modal">
+      <div className="game-over-content">
+        <h2>Game Over!</h2>
+        <p>다시 시작하시겠습니까?</p>
+        <button onClick={onRestart}>재시작</button>
+      </div>
+    </div>
+  );
 };
 
 function App() {
   const [board, setBoard] = useState(getInitialBoard);
   const [gameOver, setGameOver] = useState(false);
   const [highScore, setHighScoreState] = useState(getHighScore());
-  const [currentScore, setCurrentScore] = useState(0); // 현재 점수 상태 추가
+  const [currentScore, setCurrentScore] = useState(0);
 
   const handleKeyPress = (e) => {
     const newBoard = board.map(row => [...row]);
@@ -111,22 +121,26 @@ function App() {
     if (e.key === 'ArrowDown') moved = move(newBoard, 'down');
 
     if (moved) {
-      // 현재 점수를 계산
       const newScore = newBoard.flat().reduce((a, b) => a + b, 0);
-      setCurrentScore(newScore); // 상태에 현재 점수 저장
+      setCurrentScore(newScore);
       addRandomTile(newBoard);
       setBoard(newBoard);
 
       if (newScore > highScore) {
         setHighScoreState(newScore);
-        setHighScore(newScore); // 쿠키에 저장
+        setHighScore(newScore);
       }
 
       if (checkGameOver(newBoard)) {
         setGameOver(true);
-        alert("Game Over!");
       }
     }
+  };
+
+  const restartGame = () => {
+    setBoard(getInitialBoard());
+    setCurrentScore(0);
+    setGameOver(false);
   };
 
   useEffect(() => {
@@ -137,18 +151,19 @@ function App() {
   return (
     <div className="App title-container">
       <h1>T048</h1>
-      <div className="high-score">High Score: {highScore}</div>
-      <div className="current-score">Current Score: {currentScore}</div> {/* 현재 점수 표시 */}
+      <div className="high-score">나영쌤의 분노 수치: {highScore}</div>
+      <div className="current-score">현재 점수: {currentScore}</div>
       <div className="board">
         {board.map((row, i) =>
           row.map((tile, j) => (
             <div key={`${i}-${j}`} className={`tile tile-${tile > 0 ? tile : ''}`}>
-            {tile !== 0 ? tile : ''}
+              {tile !== 0 ? tile : ''}
             </div>
           ))
         )}
       </div>
-      {gameOver && <div className="game-over">Game Over!</div>}
+
+      <GameOverModal open={gameOver} onRestart={restartGame} />
     </div>
   );
 }
