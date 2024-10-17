@@ -24,5 +24,52 @@ const addRandomTile = (board) => {
   board[x][y] = Math.random() < 0.9 ? 2 : 4;
 };
 
+const move = (board, direction) => {
+  let moved = false;
+
+  const slideAndMerge = (row) => {
+    const newRow = row.filter((val) => val !== 0);
+    const resultRow = [];
+    let i = 0;
+
+    while (i < newRow.length) {
+      if (i < newRow.length - 1 && newRow[i] === newRow[i + 1]) {
+        resultRow.push(newRow[i] * 2);
+        moved = true;
+        i += 2;
+      } else {
+        resultRow.push(newRow[i]);
+        i++;
+      }
+    }
+
+    return [...resultRow, ...Array(SIZE - resultRow.length).fill(0)];
+  };
+
+  if (direction === 'left' || direction === 'right') {
+    for (let i = 0; i < SIZE; i++) {
+      const row = direction === 'right' ? [...board[i]].reverse() : [...board[i]];
+      const newRow = slideAndMerge(row);
+      const finalRow = direction === 'right' ? newRow.reverse() : newRow;
+      if (finalRow.toString() !== board[i].toString()) moved = true;
+      board[i] = finalRow;
+    }
+  }
+
+  if (direction === 'up' || direction === 'down') {
+    for (let j = 0; j < SIZE; j++) {
+      let col = board.map(row => row[j]);
+      col = direction === 'down' ? col.reverse() : col;
+      const newCol = slideAndMerge(col);
+      const finalCol = direction === 'down' ? newCol.reverse() : newCol;
+      for (let i = 0; i < SIZE; i++) {
+        if (board[i][j] !== finalCol[i]) moved = true;
+        board[i][j] = finalCol[i];
+      }
+    }
+  }
+
+  return moved;
+};
 
 export default App;
