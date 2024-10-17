@@ -142,8 +142,8 @@ function App() {
       <div className="board">
         {board.map((row, i) =>
           row.map((tile, j) => (
-            <div key={`${i}-${j}`} className={`tile tile-${tile}`}>
-              {tile !== 0 ? tile : ''}
+            <div key={`${i}-${j}`} className={`tile tile-${tile > 0 ? tile : ''}`}>
+            {tile !== 0 ? tile : ''}
             </div>
           ))
         )}

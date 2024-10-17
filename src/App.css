@@ -57,17 +57,27 @@ body {
   transition: transform 0.3s ease, background-color 0.3s ease; /* 변환 효과 */
 }
 
-.tile-2 { background-color: #eee4da; }
-.tile-4 { background-color: #ede0c8; }
-.tile-8 { background-color: #f2b179; }
-.tile-16 { background-color: #f59563; }
-.tile-32 { background-color: #f67c5f; }
-.tile-64 { background-color: #f65e3b; }
-.tile-128 { background-color: #edcf72; }
-.tile-256 { background-color: #edcc61; }
-.tile-512 { background-color: #edc850; }
-.tile-1024 { background-color: #edc53f; }
-.tile-2048 { background-color: #edc22e; }
+.tile-2 { background: linear-gradient(145deg, #eee4da, #d8c2b6); }
+.tile-4 { background: linear-gradient(145deg, #ede0c8, #d4c8b4); }
+.tile-8 { background: linear-gradient(145deg, #f2b179, #e89b57); }
+.tile-16 { background: linear-gradient(145deg, #f59563, #ec7b4f); }
+.tile-32 { background: linear-gradient(145deg, #f67c5f, #e9614a); }
+.tile-64 { background: linear-gradient(145deg, #f65e3b, #e53a2a); }
+.tile-128 { background: linear-gradient(145deg, #edcf72, #d3c96a); }
+.tile-256 { background: linear-gradient(145deg, #edcc61, #d0b255); }
+.tile-512 { background: linear-gradient(145deg, #edc850, #b2a400); }
+.tile-1024 { background: linear-gradient(145deg, #edc53f, #e0c000); }
+.tile-2048 { background: linear-gradient(145deg, #edc22e, #d0b300); }
+.tile-4096 { background: linear-gradient(145deg, #ffcc80, #ffb74d); } 
+.tile-8192 { background: linear-gradient(145deg, #ffb74d, #ff9e1b); } 
+.tile-16384 { background: linear-gradient(145deg, #ff8f00, #ff751b); } 
+.tile-32768 { background: linear-gradient(145deg, #ff6f00, #ff5f1b); } 
+.tile-65536 { background: linear-gradient(145deg, #ff5722, #ff4a3b); } 
+.tile-131072 { background: linear-gradient(145deg, #f44336, #c62828); } 
+.tile-262144 { background: linear-gradient(145deg, #d32f2f, #b71c1c); } 
+.tile-524288 { background: linear-gradient(145deg, #c62828, #b71c1c); } 
+
+
 
 .tile.moved {
   transform: scale(1.1); /* 이동 시 크기 변화 */
