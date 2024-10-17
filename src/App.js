@@ -84,9 +84,22 @@ const checkGameOver = (board) => {
   return true; // 게임 오버
 };
 
+// 최고 점수 쿠키에서 불러오기
+const getHighScore = () => {
+  const match = document.cookie.match(/highScore=(\d+)/);
+  return match ? parseInt(match[1], 10) : 0;
+};
+
+// 최고 점수 쿠키에 저장하기
+const setHighScore = (score) => {
+  document.cookie = `highScore=${score}; path=/; max-age=31536000`; // 1년 동안 유효
+};
+
 function App() {
   const [board, setBoard] = useState(getInitialBoard);
   const [gameOver, setGameOver] = useState(false);
+  const [highScore, setHighScoreState] = useState(getHighScore());
+  const [currentScore, setCurrentScore] = useState(0); // 현재 점수 상태 추가
 
   const handleKeyPress = (e) => {
     const newBoard = board.map(row => [...row]);
@@ -98,8 +111,17 @@ function App() {
     if (e.key === 'ArrowDown') moved = move(newBoard, 'down');
 
     if (moved) {
+      // 현재 점수를 계산
+      const newScore = newBoard.flat().reduce((a, b) => a + b, 0);
+      setCurrentScore(newScore); // 상태에 현재 점수 저장
       addRandomTile(newBoard);
       setBoard(newBoard);
+
+      if (newScore > highScore) {
+        setHighScoreState(newScore);
+        setHighScore(newScore); // 쿠키에 저장
+      }
+
       if (checkGameOver(newBoard)) {
         setGameOver(true);
         alert("Game Over!");
@@ -114,7 +136,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1>2048</h1>
+      <h1>T048</h1>
+      <div className="high-score">High Score: {highScore}</div>
+      <div className="current-score">Current Score: {currentScore}</div> {/* 현재 점수 표시 */}
       <div className="board">
         {board.map((row, i) =>
           row.map((tile, j) => (
