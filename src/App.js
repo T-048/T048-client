@@ -135,7 +135,7 @@ function App() {
   }, [board]);
 
   return (
-    <div className="App">
+    <div className="App title-container">
       <h1>T048</h1>
       <div className="high-score">High Score: {highScore}</div>
       <div className="current-score">Current Score: {currentScore}</div> {/* 현재 점수 표시 */}

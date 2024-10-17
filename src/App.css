@@ -1,5 +1,5 @@
 body {
-  background-color: #bbada0;
+  background-color: #bbada0; /* 배경 색상 */
 }
 
 .board {
@@ -8,26 +8,53 @@ body {
   grid-gap: 10px;
   justify-content: center;
   margin: 0 auto;
-  background-color: #bbada0;
+  background-color: #bbada0; /* 보드 색상 */
   padding: 20px;
   border-radius: 10px;
 }
 
-.title{
-  margin-left: 20px;
+/* 부모 요소에 중앙 정렬 추가 */
+.title-container {
+  text-align: center; /* 텍스트 중앙 정렬 */
+  margin-bottom: 20px; /* 보드와의 간격 조정 */
+}
+
+.title {
+  margin: 0; /* 여백 제거 */
+  font-size: 2.5rem; /* 타이틀 크기 증가 */
+  color: #3e2723; /* 타이틀 색상 */
+}
+
+.high-score,
+.current-score {
+  font-size: 1.5rem; /* 점수 크기 */
+  color: #3e2723; /* 글자 색상 */
+  margin: 10px 0; /* 위아래 여백 */
+  border: 2px solid #3e2723; /* 테두리 색상 */
+  border-radius: 25px; /* 둥근 모서리 */
+  padding: 10px 20px; /* 내부 여백 (가로 더 여유롭게) */
+  background-color: #ffccbc; /* 배경 색상 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  transition: background-color 0.3s ease; /* 배경 색상 변화 효과 */
+  display: inline-block; /* 인라인 블록으로 설정 */
+}
+
+.high-score:hover,
+.current-score:hover {
+  background-color: #ffab91; /* 마우스 오버 시 색상 변화 */
 }
 
 .tile {
   width: 100px;
   height: 100px;
-  background-color: #cdc1b4;
+  background-color: #cdc1b4; /* 기본 타일 색상 */
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
-  font-weight: bold;
-  border-radius: 10px;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  font-size: 2rem; /* 글자 크기 */
+  font-weight: bold; /* 글자 두께 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  transition: transform 0.3s ease, background-color 0.3s ease; /* 변환 효과 */
 }
 
 .tile-2 { background-color: #eee4da; }
@@ -43,5 +70,12 @@ body {
 .tile-2048 { background-color: #edc22e; }
 
 .tile.moved {
-  transform: scale(1.1);
+  transform: scale(1.1); /* 이동 시 크기 변화 */
+}
+
+.game-over {
+  font-size: 2rem; /* 게임 오버 글자 크기 */
+  color: #d32f2f; /* 게임 오버 글자 색상 */
+  margin-top: 20px; /* 게임 오버 여백 */
+  font-weight: bold; /* 글자 두께 */
 }
