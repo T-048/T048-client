@@ -83,4 +83,49 @@ const checkGameOver = (board) => {
   return true;
 };
 
+function App() {
+  const [board, setBoard] = useState(getInitialBoard);
+  const [gameOver, setGameOver] = useState(false);
+
+  const handleKeyPress = (e) => {
+    const newBoard = board.map(row => [...row]);
+    let moved = false;
+
+    if (e.key === 'ArrowLeft') moved = move(newBoard, 'left');
+    if (e.key === 'ArrowRight') moved = move(newBoard, 'right');
+    if (e.key === 'ArrowUp') moved = move(newBoard, 'up');
+    if (e.key === 'ArrowDown') moved = move(newBoard, 'down');
+
+    if (moved) {
+      addRandomTile(newBoard);
+      setBoard(newBoard);
+      if (checkGameOver(newBoard)) {
+        setGameOver(true);
+        alert("Game Over!");
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [board]);
+
+  return (
+    <div className="App">
+      <h1>2048</h1>
+      <div className="board">
+        {board.map((row, i) =>
+          row.map((tile, j) => (
+            <div key={`${i}-${j}`} className={`tile tile-${tile}`} style={{ transform: `translate(${(j * 100) + (j * 10)}px, ${(i * 100) + (i * 10)}px)` }}>
+              {tile !== 0 ? tile : ''}
+            </div>
+          ))
+        )}
+      </div>
+      {gameOver && <div className="game-over">Game Over!</div>}
+    </div>
+  );
+}
+
 export default App;
