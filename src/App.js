@@ -72,4 +72,15 @@ const move = (board, direction) => {
   return moved;
 };
 
+const checkGameOver = (board) => {
+  for (let i = 0; i < SIZE; i++) {
+    for (let j = 0; j < SIZE; j++) {
+      if (board[i][j] === 0 || (i < SIZE - 1 && board[i][j] === board[i + 1][j]) || (j < SIZE - 1 && board[i][j] === board[i][j + 1])) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
 export default App;
